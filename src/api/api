@@ -1,0 +1,17 @@
+import request from './request.js'
+
+export function publish (req) {
+  return request({
+    url: '',
+    method: 'POST',
+    data: req
+  })
+}
+
+export function getAddress (req) {
+  return request({
+    url: 'https://apis.map.qq.com/ws/geocoder/v1/?location='+req+'&key=UAIBZ-LCGKP-JD5DR-VSZQD-6PBGS-J3BZO ',
+    method: 'GET',
+  })
+}
+
