@@ -35,7 +35,7 @@
   white-space: nowrap;
   border: 1px solid #fff;
   position: absolute;
-  top: 0;
+  /*top: 0;*/
   transform: translateY(-50%) translateX(100%);
 }
 </style>

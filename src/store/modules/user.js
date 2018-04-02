@@ -3,7 +3,8 @@ import * as $ from '@/api/api'
 const user = {
   state: {
     userInfo: {},
-    address: ''
+    address: '',
+    position: [],
   },
   mutations: {
     setUserInfo: (state, data) => {
@@ -12,7 +13,8 @@ const user = {
   },
   actions: {
     async getAddress (context,req) {
-      const res = await $.getAddress(req)
+      context.state.position = req
+      const res = await $.getAddress(`${req[0]},${req[1]}`)
       context.state.address = res.result.address_component.district
     }
   }

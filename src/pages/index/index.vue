@@ -1,44 +1,40 @@
 <template>
   <div class="container">
     <div class="top">
-      <a href="#" class="list"></a>
-      <a href="/pages/index/city/mian" class="address">{{address}}</a>
-      <a href="#" class="message"></a>
+      <div class="nav">
+        <ul>
+          <li class="list"><a href="#" class="list"></a></li>
+          <li class="address"><a href="/pages/index/city/mian" class="address">{{address}}</a></li>
+          <li class="message"><a href="#" class="message"></a></li>
+        </ul>
+      </div>
+      <form class="form-container">
+        <input placeholder="输入关键字进行精确查找"
+               placeholder-class="pl-search"
+               @click.lazy="goSearch"
+               disabled />
+      </form>
     </div>
-    <form class="form-container">
-      <input placeholder="输入关键字进行精确查找"
-             placeholder-style="color:#ccc;letter-spacing:1rpx;background: url(../../../static/corn/search.png) no-repeat center left;background-size: 30rpx 30rpx;padding-left: 42rpx; ;"
-             @click.lazy="goSearch"
-             disabled />
-    </form>
     <div class="panel">
       <div class="panel-header">
-        <span>附近订单 | <a href="/pages/index/city/mian">{{address}}</a></span>
+        <span>附近订单</span>
+        <span class="choose"></span>
       </div>
-      <ul>
-        <li></li>
-      </ul>
+      <div class="panel-body">
+        <ul>
+          <li v-for="(order, index) in orderList" :key="index">
+            <order-card :order="order"></order-card>
+          </li>
+        </ul>
+      </div>
     </div>
-    <!--<div class="userinfo" @click="bindViewTap">-->
-      <!--<img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />-->
-      <!--<div class="userinfo-nickname">-->
-        <!--<card :text="userInfo.nickName"></card>-->
-      <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="usermotto">-->
-      <!--<div class="user-motto">-->
-        <!--<card :text="motto"></card>-->
-      <!--</div>-->
-    <!--</div>-->
     <bottom></bottom>
-    <!--<a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>-->
   </div>
 </template>
 
 <script>
-import card from '@/components/card'
 import bottom from '@/components/bottom'
+import order from '@/components/order'
 
 export default {
   data () {
@@ -48,12 +44,15 @@ export default {
     }
   },
   components: {
-    card,
+    'order-card':order,
     bottom
   },
   computed: {
     address () {
       return this.$store.state.user.address
+    },
+    orderList () {
+      return this.$store.state.order.orderList.list
     }
   },
   methods: {
@@ -96,9 +95,9 @@ export default {
     }),
     wx.getLocation ({
       success: (res) => {
-        this.longitude = res.longitude
         this.latitude = res.latitude
-        this.$store.dispatch('getAddress',`${res.latitude},${res.longitude}`)
+        this.longitude = res.longitude
+        this.$store.dispatch('getAddress',[res.latitude, res.longitude])
       }
     })
   },
@@ -106,54 +105,71 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .form-container {
-    width: 88%;
-    height: 60rpx;
-    background: rgba(166, 166, 166, .1);
-    border-radius: 8px;
-    input {
-      padding: 6rpx 0 6rpx 120rpx;
-      font-size: 28rpx;
-      line-height: 60rpx;
-    }
-    .input-placeholder {
-      background: url(../../../static/corn/search.png);
-    }
-  }
-  .panel {
-    width: 90%;
-    margin: 40rpx auto;
-    padding: 0 60rpx;
-    .panel-header {
-      text-align: left;
-      font-size: 16px;
-      a {
-        display: inline-block;
+  .top {
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    .nav ul{
+      display: flex;
+      font-size: 33rpx;
+      line-height: 36rpx;
+      color: #333;
+      width: 90%;
+      margin: 20rpx auto 28rpx;
+      .list {
+        width: 48rpx;
+        height: 42rpx;
+        background: url(../../../static/corn/list.png) no-repeat;
+        background-size: 100% 100%;
+      }
+      .address {
+        flex: 1;
+        text-align: center;
+        a {
+          display: inline;
+        }
+      }
+      .message {
+        width: 48rpx;
+        height: 46rpx;
+        background: url(../../../static/corn/contact.png) no-repeat;
+        background-size: 100% 100%;
       }
     }
   }
-  .top {
-    display: flex;
-    font-size: 32rpx;
-    color: #333;
-    width: 90%;
-    margin-bottom: 32rpx;
-    .list {
-      width: 48rpx;
-      height: 42rpx;
-      background: url(../../../static/corn/list.png) no-repeat;
-      background-size: 100% 100%;
+  .panel {
+    width: 100%;
+    .panel-header {
+      text-align: left;
+      font-size: 36rpx;
+      color: #666;
+      background: #fff;
+      padding: 20rpx 48rpx;
+      margin-bottom: 20rpx;
+      span.choose {
+        float: right;
+        width: 20rpx;
+        height: 32rpx;
+        margin-top: 6rpx;
+        background: url(../../../static/corn/right.png) no-repeat;
+        background-size: 100% 100%;
+      }
     }
-    .address {
-      flex: 1;
-      text-align: center;
-    }
-    .message {
-      width: 48rpx;
-      height: 46rpx;
-      background: url(../../../static/corn/message.png) no-repeat;
-      background-size: 100% 100%;
+    .panel-body {
+      box-sizing: border-box;
+      width: 100%;
+      max-height: calc(100vh - 400rpx);
+      overflow: scroll;
+      ul {
+        display: flex;
+        flex-direction: column;
+        li {
+          margin-bottom: 20rpx;
+        }
+      }
     }
   }
 </style>
 
+<style lang="less">
+</style>

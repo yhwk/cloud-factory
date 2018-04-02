@@ -22,4 +22,38 @@
     width: 69vw;
     margin-bottom: 20rpx!important;
   }
+  .left {
+    float: left;
+    &:after {
+      content: '';
+      clear: both;
+    }
+  }
+  .right {
+    float: right;
+    &:after {
+      content: '';
+      clear: both;
+    }
+  }
+  .form-container {
+    display: block;
+    width: 88%;
+    height: 60 rpx;
+    background: rgba(136, 136, 136, .1);
+    border-radius: 16rpx;
+    margin: 0 auto 16rpx;
+    input {
+      padding: 9rpx 0 0 160rpx;
+      font-size: 28rpx;
+      line-height: 60rpx;
+    }
+  }
+  .pl-search {
+    color:#ccc;
+    letter-spacing:1rpx;
+    background: url(../../static/corn/search.png) no-repeat left;
+    background-size: 30rpx 30rpx;
+    padding-left:42rpx;
+  }
 }

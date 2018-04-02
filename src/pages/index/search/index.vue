@@ -1,16 +1,31 @@
 <template>
   <div class="container">
     <form class="form-container">
-      <input placeholder="请输入订单、工厂" placeholder-class="placeholder" focus="true" auto-focus="true"/>
+      <input placeholder="输入关键字进行精确查找"
+             placeholder-class="pl-search"
+             focus="true"
+             auto-focus="true"/>
     </form>
     <div class="panel">
       <div class="panel-header">
-        热门搜索
+        需求
       </div>
       <div class="panel-body">
         <div class="box">
           <div v-for="(item, index) in hotList" :key="index" class="tag">
-            <a href="#">{{item}}</a>
+            {{item}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header">
+        工厂
+      </div>
+      <div class="panel-body">
+        <div class="box">
+          <div v-for="(item, index) in factoryList" :key="index" class="line">
+            {{item}}
           </div>
         </div>
       </div>
@@ -25,7 +40,8 @@
     name: 'search',
     data () {
       return {
-        hotList: ['代加工','纺织','内衣','订单折扣','边料','廉价代加工','辅料','原料','金华','义乌']
+        hotList: ['代加工','纺织','内衣','订单折扣狗','边料','廉价代加工','辅料','原料','金华','义乌'],
+        factoryList: ['浙江棒杰针织品数码有限公司']
       }
     },
     components: {
@@ -34,32 +50,42 @@
   }
 </script>
 
-<style scoped>
-  .form-container {
-    width: 80%;
-    background: rgba(166, 166, 166, .1);
-    border-radius: 16px;
-    margin: 10px 0;
-  }
-  input {
-    padding: 6px 0 6px 20px;
-    font-size: 15px;
+<style scoped lang="less">
+  .container {
+    background: #fff;
+    .form-container {
+      margin-top: 32rpx;
+      margin-bottom: 32rpx;
+    }
+    .panel {
+      width: 100%;
+      border-top: 1px solid #eee;
+      box-sizing: border-box;
+      padding: 32rpx 40rpx;
+    }
   }
   .panel-header {
-    text-align: center;
+    text-align: left;
+    font-size: 32rpx;
+    color: #333
   }
   .panel-body {
-    padding: 20rpx 40rpx;
+    margin: 18rpx -14rpx
   }
   .box {
     display: flex;
     flex-flow: wrap;
   }
   .tag {
-    font-size: 15px;
-    margin: 10px;
+    font-size: 24rpx;
+    color: #666;
+    padding: 12rpx 32rpx;
+    margin: 14rpx;
     white-space:nowrap;
-    border: none
+    border: none;
+    background: #F2F2F2;
+    box-sizing: border-box;
+    border-radius: 8rpx;
   }
   .tag a {
     border: 1px solid #F2F6FC;

@@ -20,6 +20,7 @@ export default {
   justify-content: space-between;
   padding: 0;
   box-sizing: border-box;
+  background: #f6f8f9
 }
 /* this rule will be remove */
 * {
